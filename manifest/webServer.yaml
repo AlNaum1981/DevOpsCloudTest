@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app-deployment
+  namespace: your-namespace
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: my-app-container
+        image: your-image:tag
+        ports:
+        - containerPort: 8000
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8000
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        env:
+        - name: UUID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.uid
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-app-service
+  namespace: your-namespace
+spec:
+  selector:
+    app: my-app
+  type: ClusterIP
+  ports:
+  - port: 8000
+    targetPort: 8000
