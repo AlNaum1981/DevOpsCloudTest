@@ -32,8 +32,8 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCfrfE0OluoNHb5dOpV4RpWmVXvMBWc17kaM7DDjCm7
 Полученный скрипт и Dockerfile к нему положить в папку /app
 ------------------------------------------------------------
 Ответ: Выполнено. 
-1. sudo docker build -t webapp_v0.1 .
-2. sudo docker run -d -p 8000:8000 --name webapp webapp_v0.1
+1. sudo docker build -t webapp .
+2. sudo docker run -d -p 8000:8000 --name webapp webapp
 ### Kubernetes manifest
 Далее необходимо написать манифест для запуска приложения в Kubernetes в отдельном неймспейсе в виде Deployment с 3 репликами и сервиса с типом ClusterIP. Реализовать readiness- и liveness- пробы. В переменную UUID должен подставляться уникальный идентификатор пода в кластере, в котором запущено приложение.
 
